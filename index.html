@@ -1,0 +1,187 @@
+<!Doctype html>
+<html>
+
+<head>
+    <title>Horizontal Scrolling</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=No">
+</head>
+<style>
+body,
+html {
+    font: 400 14px/20px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.nav {
+    overflow: hidden;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch
+}
+
+.nav-list {
+    list-style: none;
+    white-space: nowrap;
+    padding-left: 0;
+    font-size: 20px;
+    transform: translateX(0);
+    transition: all 0.5s;
+}
+
+.nav-list li {
+    display: inline-block;
+    padding-right: 20px;
+    cursor: pointer;
+}
+
+.nav-list:last-child {
+    margin-right: 0;
+}
+
+.nav-list {
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.nav-list>li.active {
+    color: #e53b51;
+}
+</style>
+
+<body>
+    <div class="container">
+        <nav class="nav">
+            <ul class="nav-list">
+                <li>Edno</li>
+                <li>Dve</li>
+                <li>Tri</li>
+                <li>Chetri</li>
+                <li>Pet</li>
+                <li>Shest</li>
+                <li>Sedem</li>
+                <li>Osem</li>
+                <li>Devet</li>
+                <li>Deset</li>
+                <li>Edinaise</li>
+            </ul>
+        </nav>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+    $(function() {
+        $(".nav-list>li").click(function() {
+            $(".nav-list>li").removeClass("active");
+            $(this).addClass("active");
+
+            var middle_point = $(".nav").innerWidth() / 2;
+            var left = $(this).position().left;
+            var transform = ((middle_point - left));
+
+            $(".nav-list").css({ 'transform': 'translateX(' + transform + 'px)' });
+        });
+
+        $(".nav-list>li:first-child,.nav-list>li:nth-child(2)").click(function() {
+            $(".nav-list").css({ 'transform': '' });
+        });
+        $(".nav-list>li:last-child,.nav-list>li:nth-last-child(2)").click(function() {
+            var middle_point = $(".nav").innerWidth() / 2;
+            var left = $(".nav-list>li:last-child").position().left;
+            var transform = ((middle_point - left) + 152);
+            $(".nav-list").css({ 'transform': 'translateX(' + transform + 'px)' });
+        });        
+
+
+        // svg scalling
+        // var initialMouseX = 0;
+        // var initialMouseY = 0;
+        // var mouseIsDown = false;
+        // var scaleSvg = $('.nav-list');
+
+        // scaleSvg.each(function() {
+        //     var _this = $(this);
+        //     _this.on('mousedown', function(event) {
+        //         console.log("down");
+        //         mouseIsDown = true;
+        //         initialMouseX = event.clientX || event.originalEvent.touches[0].pageX;
+
+        //         // if (_this.hasClass("abc")) {
+        //         //     _this.css({ 'transform': 'translateX(' + relativeMouseX + 'px)' });    
+        //         // }
+        //     });
+
+        //     $(_this).on('mouseup', function(event) {
+        //         if (!mouseIsDown)
+        //             return;
+        //         console.log("up");
+        //         mouseIsDown = false;
+
+        //         _this.addClass("abc");
+
+        //     });
+
+        //     $(_this).on('mousemove', function(event) {
+        //         if (!mouseIsDown)
+        //             return;
+        //         console.log("move");
+        //         var currentMouseX = event.clientX || event.originalEvent.touches[0].pageX;
+        //         var relativeMouseX = currentMouseX - initialMouseX;
+        //         console.log(relativeMouseX);
+        //         _this.css({ 'transform': 'translateX(' + relativeMouseX + 'px)' });
+
+        //         //             if (relativeMouseX >= 500) {
+        //         //                 _this.css({ 'left': '500px' });
+        //         //                 return;
+        //         //             } else if (relativeMouseX <= -500) {
+        //         //                 _this.css({ 'left': '-500px' });
+        //         //                 return;
+        //         //             }
+
+        //         //             if (relativeMouseY >= 300) {
+        //         //                 _this.css({ 'top': '300px' });
+        //         //                 return;
+        //         //             } else if (relativeMouseY <= -300) {
+        //         //                 _this.css({ 'top': '-300px' });
+        //         //                 return;
+        //         //             }
+
+        //     });
+        //     // _this.on('mousedown', function(event) {
+        //     //     if (_this.hasClass("abc")) {
+        //     //         _this.css({ 'transform': 'translateX(' + relativeMouseX + 'px)' });    
+        //     //     }
+        //     // });
+        //     // $(document, _this).mouseleave(function(event) {
+        //     //  if (!mouseIsDown)
+        //     //         return;
+        //     //     alert();
+        //     //     console.log(relativeMouseY);
+        //     //     console.log(relativeMouseX);
+        //     //     var relativeMouseY1 = relativeMouseY;
+        //     //     var relativeMouseX1 = relativeMouseX;
+        //     //     _this.css({ 'left': relativeMouseX1, 'top': relativeMouseY1 });
+        //     // });
+        // });
+    });
+    </script>
+</body>
+
+</html>
